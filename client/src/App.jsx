@@ -1,0 +1,245 @@
+import React, { useState, useEffect } from 'react';
+import Dashboard from './components/Dashboard';
+import LessonTree from './components/LessonTree';
+import WritingStudio from './components/WritingStudio';
+import SpeakingLounge from './components/SpeakingLounge';
+import ReadersCorner from './components/ReadersCorner';
+
+export default function App() {
+  const [view, setView] = useState('dashboard');
+  const [syllabus, setSyllabus] = useState(null);
+  const [progress, setProgress] = useState({});
+  const [selectedPrompt, setSelectedPrompt] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Fetch Syllabus on mount
+  useEffect(() => {
+    async function fetchSyllabus() {
+      try {
+        const res = await fetch('http://localhost:3001/api/syllabus');
+        if (!res.ok) {
+          throw new Error('Could not fetch syllabus data from the Express server.');
+        }
+        const data = await res.json();
+        setSyllabus(data);
+      } catch (err) {
+        console.error(err);
+        setError('Express server offline. Please make sure to run npm run dev from the project root and ensure the backend is active.');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchSyllabus();
+  }, []);
+
+  // Load progress from LocalStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('italian_b2_progress');
+    if (saved) {
+      try {
+        setProgress(JSON.parse(saved));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  const toggleUnitProgress = (unitId) => {
+    setProgress((prev) => {
+      const updated = { ...prev, [unitId]: !prev[unitId] };
+      localStorage.setItem('italian_b2_progress', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const handleSetView = (newView) => {
+    // Clear prefilled prompt when navigating away manually
+    if (newView !== 'writing' && newView !== 'speaking') {
+      setSelectedPrompt(null);
+    }
+    setView(newView);
+  };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f4ede2', flexDirection: 'column' }}>
+        <h2 style={{ fontSize: '2.5rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '1rem' }}>Caricamento...</h2>
+        <p style={{ fontWeight: 600 }}>Connecting to local learning platform server...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f4ede2', padding: '2rem' }}>
+        <div style={{ border: '4px solid #000', backgroundColor: '#f87171', padding: '2rem', boxShadow: '8px 8px 0px #000', maxWidth: '600px' }}>
+          <h2 style={{ fontWeight: 900, fontSize: '2rem', textTransform: 'uppercase', marginBottom: '1rem' }}>⚠️ Connessione Fallita</h2>
+          <p style={{ fontWeight: 700, marginBottom: '1.5rem', fontSize: '1.1rem' }}>{error}</p>
+          <p style={{ fontWeight: 600 }}>Please start the servers by running:</p>
+          <pre style={{ backgroundColor: '#fff', border: '2px solid #000', padding: '10px', fontSize: '1rem', fontWeight: 800 }}>npm run dev</pre>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      
+      {/* Top Header Bar */}
+      <header style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        padding: '1rem 1.5rem', 
+        borderBottom: '4px solid #000', 
+        backgroundColor: '#fff', 
+        position: 'sticky', 
+        top: 0, 
+        zIndex: 900 
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+          <span style={{ fontSize: '1.4rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.5px' }}>🇮🇹 Italiano B2</span>
+          <span style={{ fontSize: '0.75rem', fontWeight: 800, backgroundColor: '#000', color: '#fff', padding: '2px 6px', textTransform: 'uppercase' }}>Tutor</span>
+        </div>
+        <button 
+          className="nb-btn btn-yellow" 
+          onClick={() => setSidebarOpen(!sidebarOpen)} 
+          style={{ padding: '0.5rem 1rem', fontSize: '0.95rem', fontWeight: 900 }}
+        >
+          {sidebarOpen ? '✕ Close Menu' : '☰ Open Menu'}
+        </button>
+      </header>
+
+      {/* Backdrop overlay */}
+      {sidebarOpen && (
+        <div 
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            width: '100vw', 
+            height: '100vh', 
+            backgroundColor: 'rgba(0,0,0,0.5)', 
+            backdropFilter: 'blur(3px)',
+            zIndex: 950 
+          }} 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Slide-out Off-Canvas Sidebar */}
+      <nav className={`sidebar ${sidebarOpen ? 'open' : ''}`} style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        height: '100vh',
+        width: '300px',
+        transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+        transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+        zIndex: 990,
+        backgroundColor: 'var(--color-accent-yellow)',
+        borderRight: '4px solid var(--border-primary)',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '2rem 1.5rem'
+      }}>
+        <div className="logo-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+          <div>
+            <h1 className="logo-title" style={{ fontSize: '1.8rem' }}>Menu</h1>
+            <span className="logo-sub">Navigazione</span>
+          </div>
+          <button 
+            className="nb-btn btn-red" 
+            onClick={() => setSidebarOpen(false)}
+            style={{ padding: '0.3rem 0.7rem', fontSize: '0.85rem' }}
+          >
+            ✕
+          </button>
+        </div>
+
+        <ul className="nav-links" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <li>
+            <button 
+              className={`nav-btn ${view === 'dashboard' ? 'active' : ''}`}
+              onClick={() => { handleSetView('dashboard'); setSidebarOpen(false); }}
+            >
+              🏠 Dashboard
+            </button>
+          </li>
+          <li>
+            <button 
+              className={`nav-btn ${view === 'syllabus' ? 'active' : ''}`}
+              onClick={() => { handleSetView('syllabus'); setSidebarOpen(false); }}
+            >
+              🌳 Syllabus Tree
+            </button>
+          </li>
+          <li>
+            <button 
+              className={`nav-btn ${view === 'writing' ? 'active' : ''}`}
+              onClick={() => { handleSetView('writing'); setSidebarOpen(false); }}
+            >
+              ✏️ Writing Studio
+            </button>
+          </li>
+          <li>
+            <button 
+              className={`nav-btn ${view === 'speaking' ? 'active' : ''}`}
+              onClick={() => { handleSetView('speaking'); setSidebarOpen(false); }}
+            >
+              🗣️ Speaking Lounge
+            </button>
+          </li>
+          <li>
+            <button 
+              className={`nav-btn ${view === 'reading' ? 'active' : ''}`}
+              onClick={() => { handleSetView('reading'); setSidebarOpen(false); }}
+            >
+              📖 Reader's Corner
+            </button>
+          </li>
+        </ul>
+
+        <div className="sidebar-footer" style={{ marginTop: 'auto', borderTop: '3px solid #000', paddingTop: '1rem', fontSize: '0.85rem', fontWeight: 600 }}>
+          <p>AI Engine: <strong>Gemini API</strong></p>
+          <p style={{ fontSize: '0.75rem', marginTop: '5px', color: '#444' }}>Ollama Llama 3.1 Fallback Active</p>
+        </div>
+      </nav>
+
+      {/* Main View Area */}
+      <main className="main-content" style={{ flex: 1, padding: '2rem 1.5rem', width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
+        {view === 'dashboard' && (
+          <Dashboard 
+            syllabus={syllabus} 
+            progress={progress} 
+            setView={handleSetView} 
+          />
+        )}
+        {view === 'syllabus' && (
+          <LessonTree 
+            syllabus={syllabus} 
+            progress={progress} 
+            toggleUnitProgress={toggleUnitProgress} 
+            setSelectedPrompt={setSelectedPrompt}
+            setView={handleSetView}
+          />
+        )}
+        {view === 'writing' && (
+          <WritingStudio 
+            prefilledPrompt={selectedPrompt} 
+          />
+        )}
+        {view === 'speaking' && (
+          <SpeakingLounge 
+            prefilledPrompt={selectedPrompt} 
+          />
+        )}
+        {view === 'reading' && (
+          <ReadersCorner />
+        )}
+      </main>
+    </div>
+  );
+}
