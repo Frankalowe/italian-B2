@@ -140,14 +140,20 @@ function parseInlineStyles(text) {
   return parsed;
 }
 
+// Simple localStorage helpers
+const lsGet = (key, fallback = null) => {
+  try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : fallback; } catch { return fallback; }
+};
+const lsSet = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} };
+
 export default function LessonTree({ syllabus, progress, toggleUnitProgress, setSelectedPrompt, setView }) {
-  const [activeLevel, setActiveLevel] = useState('A1');
+  const [activeLevel, setActiveLevel] = useState(() => lsGet('ita_last_level', 'A1'));
   const [selectedUnit, setSelectedUnit] = useState(null);
   
   const levelData = syllabus[activeLevel];
   
   // Study Guide Generator state
-  const [activeTab, setActiveTab] = useState('grammar');
+  const [activeTab, setActiveTab] = useState(() => lsGet('ita_last_tab', 'grammar'));
   const [lessonContent, setLessonContent] = useState('');
   const [loadingLesson, setLoadingLesson] = useState(false);
   const [lessonError, setLessonError] = useState('');
@@ -155,6 +161,16 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
   // Editable lesson guide states
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
+
+  // Restore last selected unit on mount (after level data is known)
+  useEffect(() => {
+    const savedUnitId = lsGet('ita_last_unit_id', null);
+    if (savedUnitId && levelData?.units) {
+      const found = levelData.units.find(u => u.id === savedUnitId);
+      if (found) setSelectedUnit(found);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Reset states and check cache when selected unit or active tab changes
   useEffect(() => {
@@ -271,8 +287,11 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
             className="nb-select"
             value={activeLevel}
             onChange={(e) => {
-              setActiveLevel(e.target.value);
+              const lvl = e.target.value;
+              setActiveLevel(lvl);
+              lsSet('ita_last_level', lvl);
               setSelectedUnit(null);
+              lsSet('ita_last_unit_id', null);
             }}
             style={{
               fontSize: '1.05rem',
@@ -306,6 +325,7 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
               const selectedId = e.target.value;
               const unit = levelData.units.find(u => u.id === selectedId);
               setSelectedUnit(unit || null);
+              lsSet('ita_last_unit_id', unit?.id || null);
             }}
             style={{
               fontSize: '1.05rem',
@@ -379,7 +399,7 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
                   boxShadow: activeTab === tab.id ? '1px 1px 0px #000' : '3px 3px 0px #000',
                   transform: activeTab === tab.id ? 'translate(2px, 2px)' : 'none'
                 }}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => { setActiveTab(tab.id); lsSet('ita_last_tab', tab.id); }}
               >
                 {tab.label}
               </button>

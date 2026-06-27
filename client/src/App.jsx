@@ -5,10 +5,16 @@ import WritingStudio from './components/WritingStudio';
 import SpeakingLounge from './components/SpeakingLounge';
 import ReadersCorner from './components/ReadersCorner';
 
+// Simple localStorage helpers
+const lsGet = (key, fallback = null) => {
+  try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : fallback; } catch { return fallback; }
+};
+const lsSet = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} };
+
 export default function App() {
-  const [view, setView] = useState('dashboard');
+  const [view, setView] = useState(() => lsGet('ita_last_view', 'dashboard'));
   const [syllabus, setSyllabus] = useState(null);
-  const [progress, setProgress] = useState({});
+  const [progress, setProgress] = useState(() => lsGet('italian_b2_progress', {}));
   const [selectedPrompt, setSelectedPrompt] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -34,31 +40,21 @@ export default function App() {
     fetchSyllabus();
   }, []);
 
-  // Load progress from LocalStorage
-  useEffect(() => {
-    const saved = localStorage.getItem('italian_b2_progress');
-    if (saved) {
-      try {
-        setProgress(JSON.parse(saved));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, []);
+  // Progress is now initialised inline via useState lazy init above
 
   const toggleUnitProgress = (unitId) => {
     setProgress((prev) => {
       const updated = { ...prev, [unitId]: !prev[unitId] };
-      localStorage.setItem('italian_b2_progress', JSON.stringify(updated));
+      lsSet('italian_b2_progress', updated);
       return updated;
     });
   };
 
   const handleSetView = (newView) => {
-    // Clear prefilled prompt when navigating away manually
     if (newView !== 'writing' && newView !== 'speaking') {
       setSelectedPrompt(null);
     }
+    lsSet('ita_last_view', newView);
     setView(newView);
   };
 
