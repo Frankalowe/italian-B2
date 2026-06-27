@@ -225,7 +225,7 @@ export default function App() {
 
         <div className="sidebar-footer" style={{ marginTop: 'auto', borderTop: '3px solid #000', paddingTop: '1rem', fontSize: '0.85rem', fontWeight: 600 }}>
           <p>AI Engine: <strong>Gemini API</strong></p>
-          <p style={{ fontSize: '0.75rem', marginTop: '5px', color: '#444' }}>Ollama Llama 3.1 Fallback Active</p>
+          <p style={{ fontSize: '0.75rem', marginTop: '5px', color: '#444' }}>Notes precompiled with Gemma 4 (Local)</p>
         </div>
       </nav>
 

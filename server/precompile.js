@@ -30,7 +30,7 @@ loadEnv(rootEnvPath);
 loadEnv(envPath);
 
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434/api/chat';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.1';
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'gemma4:e2b';
 
 // Helper to query local Ollama LLM
 async function queryOllama(messages) {
@@ -121,7 +121,7 @@ async function precompile() {
   const levels = Object.keys(syllabus);
   
   console.log(`==================================================`);
-  console.log(`🇮🇹 Starting Italian Syllabus Precompiler (Llama 3.1)`);
+  console.log(`🇮🇹 Starting Italian Syllabus Precompiler (${OLLAMA_MODEL})`);
   console.log(`Targeting levels: ${levels.join(', ')}`);
   console.log(`==================================================\n`);
 
