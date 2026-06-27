@@ -9,7 +9,7 @@
     "client": "npm run --prefix client dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "precompile": "node server/precompile.js",
-    "build": "cd client && npm install && npm run build"
+    "build": "cd client && npm install && npm run build && cd .. && rm -rf public && cp -r client/dist public"
   },
   "dependencies": {
     "cors": "^2.8.5",
