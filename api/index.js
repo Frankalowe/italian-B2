@@ -5,10 +5,6 @@ const path = require('path');
 
 const app = express();
 
-// Set environment variables or defaults
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434/api/chat';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.1';
-
 // Load local .env variables manually in development
 const rootEnvPath = path.join(process.cwd(), '.env');
 if (fs.existsSync(rootEnvPath)) {
@@ -46,8 +42,8 @@ app.get('/api/syllabus', (req, res) => {
 // Helper function to query Gemini API (via HTTP)
 async function queryGemini(messages, jsonMode = false) {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey || apiKey === 'undefined') {
-    throw new Error('Gemini API key is not configured.');
+  if (!apiKey || apiKey === 'undefined' || apiKey === '') {
+    throw new Error('Gemini API key is not configured. Please add GEMINI_API_KEY to Vercel Environment Variables.');
   }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
@@ -105,53 +101,9 @@ async function queryGemini(messages, jsonMode = false) {
   throw new Error('Gemini API returned an empty or invalid response.');
 }
 
-// Helper function to query Ollama chat API
-async function queryOllama(messages, jsonMode = false) {
-  try {
-    const payload = {
-      model: OLLAMA_MODEL,
-      messages: messages,
-      stream: false,
-      options: {
-        temperature: 0.3
-      }
-    };
-    if (jsonMode) {
-      payload.format = 'json';
-    }
-
-    console.log(`[AI ROUTER] Routing request to local Ollama (model: ${OLLAMA_MODEL}, jsonMode: ${jsonMode})`);
-
-    const response = await fetch(OLLAMA_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Ollama API error: ${response.status} - ${errorText}`);
-    }
-
-    const data = await response.json();
-    return data.message.content;
-  } catch (error) {
-    console.error('Error communicating with Ollama:', error);
-    throw error;
-  }
-}
-
-// Unified Router that checks Gemini API Key and falls back to Ollama
+// Unified Router that query Gemini API directly (no local Ollama backup)
 async function queryAI(messages, jsonMode = false) {
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'undefined') {
-    try {
-      return await queryGemini(messages, jsonMode);
-    } catch (err) {
-      console.warn('Gemini query failed, falling back to local Ollama:', err.message);
-      return await queryOllama(messages, jsonMode);
-    }
-  }
-  return await queryOllama(messages, jsonMode);
+  return await queryGemini(messages, jsonMode);
 }
 
 // 1. Chat/Speaking Lounge Endpoint

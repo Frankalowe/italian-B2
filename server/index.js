@@ -5,40 +5,37 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434/api/chat';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.1';
 
-// Load environment variables manually to avoid adding extra dependencies
-const envPath = path.join(__dirname, '.env');
-const rootEnvPath = path.join(__dirname, '..', '.env');
-function loadEnv(filePath) {
-  if (fs.existsSync(filePath)) {
-    const content = fs.readFileSync(filePath, 'utf8');
-    content.split('\n').forEach(line => {
-      const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
-      if (match) {
-        const key = match[1];
-        let value = match[2] || '';
-        // Remove quotes if present
-        if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
-        if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
-        process.env[key] = value.trim();
-      }
-    });
-  }
+// Load local .env variables manually in development
+const rootEnvPath = path.join(process.cwd(), '.env');
+if (fs.existsSync(rootEnvPath)) {
+  const content = fs.readFileSync(rootEnvPath, 'utf8');
+  content.split('\n').forEach(line => {
+    const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+    if (match) {
+      const key = match[1];
+      let value = match[2] || '';
+      if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+      if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
+      process.env[key] = value.trim();
+    }
+  });
 }
-loadEnv(rootEnvPath);
-loadEnv(envPath);
 
 app.use(cors());
 app.use(express.json());
 
+// Resolve syllabus path pointing to server folder
+const SYLLABUS_PATH = path.join(process.cwd(), 'server', 'syllabus.json');
+const LESSONS_DIR = path.join(process.cwd(), 'server', 'lessons');
+
 // Load Syllabus Data
 app.get('/api/syllabus', (req, res) => {
   try {
-    const data = fs.readFileSync(path.join(__dirname, 'syllabus.json'), 'utf8');
+    const data = fs.readFileSync(SYLLABUS_PATH, 'utf8');
     res.json(JSON.parse(data));
   } catch (error) {
+    console.error('Failed to read syllabus:', error);
     res.status(500).json({ error: 'Failed to read syllabus data.' });
   }
 });
@@ -46,6 +43,9 @@ app.get('/api/syllabus', (req, res) => {
 // Helper function to query Gemini API (via HTTP)
 async function queryGemini(messages, jsonMode = false) {
   const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || apiKey === 'undefined' || apiKey === '') {
+    throw new Error('Gemini API key is not configured. Please add GEMINI_API_KEY to your environment variables.');
+  }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   let systemText = '';
@@ -102,60 +102,15 @@ async function queryGemini(messages, jsonMode = false) {
   throw new Error('Gemini API returned an empty or invalid response.');
 }
 
-// Helper function to query Ollama chat API
-async function queryOllama(messages, jsonMode = false) {
-  try {
-    const payload = {
-      model: OLLAMA_MODEL,
-      messages: messages,
-      stream: false,
-      options: {
-        temperature: 0.3
-      }
-    };
-    if (jsonMode) {
-      payload.format = 'json';
-    }
-
-    console.log(`[AI ROUTER] Routing request to local Ollama (model: ${OLLAMA_MODEL}, jsonMode: ${jsonMode})`);
-
-    const response = await fetch(OLLAMA_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Ollama API error: ${response.status} - ${errorText}`);
-    }
-
-    const data = await response.json();
-    return data.message.content;
-  } catch (error) {
-    console.error('Error communicating with Ollama:', error);
-    throw error;
-  }
-}
-
-// Unified Router that checks Gemini API Key and falls back to Ollama
+// Unified Router that query Gemini API directly (no local Ollama backup)
 async function queryAI(messages, jsonMode = false) {
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'undefined') {
-    try {
-      return await queryGemini(messages, jsonMode);
-    } catch (err) {
-      console.warn('Gemini query failed, falling back to local Ollama:', err.message);
-      return await queryOllama(messages, jsonMode);
-    }
-  }
-  return await queryOllama(messages, jsonMode);
+  return await queryGemini(messages, jsonMode);
 }
 
 // 1. Chat/Speaking Lounge Endpoint
 app.post('/api/ollama/chat', async (req, res) => {
   const { messages } = req.body;
   
-  // Inject system prompt to establish the Italian tutor persona
   const systemPrompt = {
     role: 'system',
     content: `You are an encouraging and professional Italian language tutor. The user is a beginner learning Italian up to B2 level. 
@@ -171,7 +126,7 @@ If the student makes a grammatical error in their previous message, gently corre
     const reply = await queryAI(fullMessages);
     res.json({ reply });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to generate chat reply. Ensure Gemini API key is valid or Ollama is running.' });
+    res.status(500).json({ error: 'Failed to generate chat reply.' });
   }
 });
 
@@ -185,7 +140,7 @@ app.post('/api/ollama/evaluate', async (req, res) => {
 The student is targetting level ${level}.
 Provide feedback strictly in JSON format. The JSON must match this schema:
 {
-  "cefrLevelReached": "A1", // A1, A2, B1, B2, or Lower/Higher
+  "cefrLevelReached": "A1",
   "overallFeedback": "Your encouraging summary in English",
   "corrections": [
     {
@@ -208,7 +163,7 @@ Provide feedback strictly in JSON format. The JSON must match this schema:
     res.json(JSON.parse(feedbackText));
   } catch (error) {
     console.error('Evaluation failed:', error);
-    res.status(500).json({ error: 'Failed to generate writing evaluation. Ensure Gemini key is valid or Ollama is running.' });
+    res.status(500).json({ error: 'Failed to generate writing evaluation.' });
   }
 });
 
@@ -231,7 +186,7 @@ Provide the output strictly in JSON format matching this schema:
     {
       "question": "A comprehension question in Italian about the passage",
       "options": ["Option A", "Option B", "Option C", "Option D"],
-      "answerIndex": 0 // 0-based index of the correct option
+      "answerIndex": 0
     }
   ]
 }`
@@ -239,22 +194,22 @@ Provide the output strictly in JSON format matching this schema:
 
   const userMessage = {
     role: 'user',
-    content: `Generate a CEFR ${level} passage about: ${topic}. Include 3 multiple-choice comprehension questions.`
+    content: `Generate a reading story and comprehension quiz for level ${level} on topic: "${topic}".`
   };
 
   try {
-    const readingText = await queryAI([systemMessage, userMessage], true);
-    res.json(JSON.parse(readingText));
+    const storyText = await queryAI([systemMessage, userMessage], true);
+    res.json(JSON.parse(storyText));
   } catch (error) {
-    console.error('Reading generation failed:', error);
-    res.status(500).json({ error: 'Failed to generate reading material. Ensure Gemini key is valid or Ollama is running.' });
+    console.error('Reading passage generation failed:', error);
+    res.status(500).json({ error: 'Failed to generate reading story.' });
   }
 });
 
-// 4. Retrieve Saved Lesson Segment (Check cache database)
+// 4. Get Cached Lesson Segment
 app.get('/api/lessons/:unitId/:tabId', (req, res) => {
   const { unitId, tabId } = req.params;
-  const cachePath = path.join(__dirname, 'lessons', `${unitId}_${tabId}.md`);
+  const cachePath = path.join(LESSONS_DIR, `${unitId}_${tabId}.md`);
   if (fs.existsSync(cachePath)) {
     try {
       const content = fs.readFileSync(cachePath, 'utf8');
@@ -274,18 +229,11 @@ app.post('/api/ollama/generate-lesson', async (req, res) => {
     return res.status(400).json({ error: 'Missing unitId or tabId for database lookup.' });
   }
 
-  const lessonsDir = path.join(__dirname, 'lessons');
-  const cachePath = path.join(lessonsDir, `${unitId}_${tabId}.md`);
-
-  // Ensure lessons directory exists
-  if (!fs.existsSync(lessonsDir)) {
-    fs.mkdirSync(lessonsDir, { recursive: true });
-  }
+  const cachePath = path.join(LESSONS_DIR, `${unitId}_${tabId}.md`);
 
   // Check cache first
   if (fs.existsSync(cachePath)) {
     try {
-      console.log(`Loading lesson segment ${unitId}_${tabId} from local file database.`);
       const cachedContent = fs.readFileSync(cachePath, 'utf8');
       return res.json({ content: cachedContent, cached: true });
     } catch (err) {
@@ -336,14 +284,9 @@ app.post('/api/ollama/generate-lesson', async (req, res) => {
   const systemMessage = {
     role: 'system',
     content: `You are an expert Italian language professor compiling an exhaustive, university-level, masterclass textbook chapter for an English speaker learning Italian from absolute zero to B2 level.
-The target level is CEFR ${level}.
-Focus on Unit: "${title}"
-Grammar Concept: "${grammar}"
-Vocabulary Concept: "${vocabulary}"
-
+You are generating custom content for Level: ${level}, Unit: "${title}", Subtopic Section: "${tabId.toUpperCase()}".
 ${tabInstruction}
-
-Ensure you write in clean Markdown using headers, lists, and tables where appropriate. Make the guide as extensive, thorough, and detailed as possible.`
+Deliver only the pure Markdown textbook content. Do NOT wrap it in backticks, markdown code blocks, or include any greeting/outro conversational remarks.`
   };
 
   const userMessage = {
@@ -354,22 +297,29 @@ Ensure you write in clean Markdown using headers, lists, and tables where approp
   try {
     const lessonContent = await queryAI([systemMessage, userMessage]);
     
-    // Save to local file database
-    fs.writeFileSync(cachePath, lessonContent, 'utf8');
-    console.log(`Saved new lesson segment ${unitId}_${tabId} to local database.`);
+    // Save to local file database (wrapped gracefully in case of read-only/serverless filesystems)
+    try {
+      if (!fs.existsSync(LESSONS_DIR)) {
+        fs.mkdirSync(LESSONS_DIR, { recursive: true });
+      }
+      fs.writeFileSync(cachePath, lessonContent, 'utf8');
+      console.log(`Saved new lesson segment ${unitId}_${tabId} to local database.`);
+    } catch (writeErr) {
+      console.warn('Could not write to local cache directory (running in read-only environment):', writeErr.message);
+    }
     
     res.json({ content: lessonContent, cached: false });
   } catch (error) {
     console.error('Lesson generation failed:', error);
-    res.status(500).json({ error: 'Failed to generate study guide segment. Ensure Ollama is running.' });
+    res.status(500).json({ error: 'Failed to generate study guide segment.' });
   }
 });
 
 // 6. Update Saved Lesson Segment (Save custom edits to database)
-app.put('/api/lessons/:unitId/:tabId', (req, res) => {
+app.post('/api/lessons/:unitId/:tabId/update', (req, res) => {
   const { unitId, tabId } = req.params;
   const { content } = req.body;
-  const cachePath = path.join(__dirname, 'lessons', `${unitId}_${tabId}.md`);
+  const cachePath = path.join(LESSONS_DIR, `${unitId}_${tabId}.md`);
 
   try {
     fs.writeFileSync(cachePath, content, 'utf8');
@@ -382,9 +332,9 @@ app.put('/api/lessons/:unitId/:tabId', (req, res) => {
 });
 
 // 7. Delete Saved Lesson Segment (Clear from database)
-app.delete('/api/lessons/:unitId/:tabId', (req, res) => {
+app.post('/api/lessons/:unitId/:tabId/delete', (req, res) => {
   const { unitId, tabId } = req.params;
-  const cachePath = path.join(__dirname, 'lessons', `${unitId}_${tabId}.md`);
+  const cachePath = path.join(LESSONS_DIR, `${unitId}_${tabId}.md`);
 
   if (fs.existsSync(cachePath)) {
     try {

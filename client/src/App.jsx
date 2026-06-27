@@ -5,11 +5,6 @@ import WritingStudio from './components/WritingStudio';
 import SpeakingLounge from './components/SpeakingLounge';
 import ReadersCorner from './components/ReadersCorner';
 
-const getApiUrl = (path) => {
-  const base = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
-  return `${base}${path}`;
-};
-
 export default function App() {
   const [view, setView] = useState('dashboard');
   const [syllabus, setSyllabus] = useState(null);
@@ -23,15 +18,15 @@ export default function App() {
   useEffect(() => {
     async function fetchSyllabus() {
       try {
-        const res = await fetch(getApiUrl('/api/syllabus'));
+        const res = await fetch('/api/syllabus');
         if (!res.ok) {
-          throw new Error('Could not fetch syllabus data from the Express server.');
+          throw new Error('Could not fetch syllabus data from the Vercel API.');
         }
         const data = await res.json();
         setSyllabus(data);
       } catch (err) {
         console.error(err);
-        setError('Express server offline. Please make sure to run npm run dev from the project root and ensure the backend is active.');
+        setError('Tutor platform offline. Please ensure your Vercel deployment is active and your GEMINI_API_KEY is configured in project settings.');
       } finally {
         setLoading(false);
       }
@@ -71,7 +66,7 @@ export default function App() {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f4ede2', flexDirection: 'column' }}>
         <h2 style={{ fontSize: '2.5rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '1rem' }}>Caricamento...</h2>
-        <p style={{ fontWeight: 600 }}>Connecting to local learning platform server...</p>
+        <p style={{ fontWeight: 600 }}>Connecting to the Italian learning platform...</p>
       </div>
     );
   }
@@ -82,8 +77,7 @@ export default function App() {
         <div style={{ border: '4px solid #000', backgroundColor: '#f87171', padding: '2rem', boxShadow: '8px 8px 0px #000', maxWidth: '600px' }}>
           <h2 style={{ fontWeight: 900, fontSize: '2rem', textTransform: 'uppercase', marginBottom: '1rem' }}>⚠️ Connessione Fallita</h2>
           <p style={{ fontWeight: 700, marginBottom: '1.5rem', fontSize: '1.1rem' }}>{error}</p>
-          <p style={{ fontWeight: 600 }}>Please start the servers by running:</p>
-          <pre style={{ backgroundColor: '#fff', border: '2px solid #000', padding: '10px', fontSize: '1rem', fontWeight: 800 }}>npm run dev</pre>
+          <p style={{ fontWeight: 600 }}>Ensure that your Vercel environment has access to the internet and the Gemini API credentials are set.</p>
         </div>
       </div>
     );

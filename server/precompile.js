@@ -1,9 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434/api/chat';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.1';
-
 const syllabusPath = path.join(__dirname, 'syllabus.json');
 const lessonsDir = path.join(__dirname, 'lessons');
 
@@ -35,6 +32,9 @@ loadEnv(envPath);
 // Helper to query Gemini API
 async function queryGemini(messages) {
   const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || apiKey === 'undefined' || apiKey === '') {
+    throw new Error('Gemini API key is not configured. Please add GEMINI_API_KEY to your environment/environment variables.');
+  }
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   let systemText = '';
@@ -83,50 +83,10 @@ async function queryGemini(messages) {
   throw new Error('Gemini API returned an empty or invalid response.');
 }
 
-// Helper to query Ollama
-async function queryOllama(messages) {
-  try {
-    const payload = {
-      model: OLLAMA_MODEL,
-      messages: messages,
-      stream: false,
-      options: {
-        temperature: 0.3
-      }
-    };
-
-    const response = await fetch(OLLAMA_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Ollama API error: ${response.status} - ${errorText}`);
-    }
-
-    const data = await response.json();
-    return data.message.content;
-  } catch (error) {
-    console.error('Error communicating with Ollama:', error.message);
-    throw error;
-  }
-}
-
 // Unified Router
 async function queryAI(messages) {
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'undefined') {
-    try {
-      console.log('      [API ROUTE] Querying Gemini...');
-      return await queryGemini(messages);
-    } catch (err) {
-      console.warn('      [API ROUTE] Gemini failed, falling back to local Ollama:', err.message);
-      return await queryOllama(messages);
-    }
-  }
-  console.log('      [API ROUTE] Querying local Ollama...');
-  return await queryOllama(messages);
+  console.log('      [API ROUTE] Querying Gemini...');
+  return await queryGemini(messages);
 }
 
 // Generate prompt details based on segment
