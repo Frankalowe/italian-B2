@@ -35,7 +35,7 @@ async function queryGemini(messages) {
   if (!apiKey || apiKey === 'undefined' || apiKey === '') {
     throw new Error('Gemini API key is not configured. Please add GEMINI_API_KEY to your environment/environment variables.');
   }
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
   let systemText = '';
   const contents = [];
@@ -73,6 +73,22 @@ async function queryGemini(messages) {
 
   if (!response.ok) {
     const errText = await response.text();
+    // Parse retry-after hint from Gemini 429 response
+    if (response.status === 429) {
+      let retryAfterMs = 60000; // default 60s
+      try {
+        const errJson = JSON.parse(errText);
+        const retryInfo = errJson?.error?.details?.find(d => d['@type']?.includes('RetryInfo'));
+        if (retryInfo?.retryDelay) {
+          const secs = parseFloat(retryInfo.retryDelay.replace('s', ''));
+          retryAfterMs = Math.ceil(secs + 5) * 1000; // add 5s buffer
+        }
+      } catch (_) {}
+      const retryAfterSecs = retryAfterMs / 1000;
+      console.warn(`    [QUOTA] Rate limited (429). Waiting ${retryAfterSecs}s before retry...`);
+      await new Promise(resolve => setTimeout(resolve, retryAfterMs));
+      throw new Error(`Gemini quota hit (429) — waited ${retryAfterSecs}s`);
+    }
     throw new Error(`Gemini API error: ${response.status} - ${errText}`);
   }
 
@@ -196,22 +212,29 @@ Ensure you write in clean Markdown using headers, lists, and tables where approp
           console.log(`    [SUCCESS] Saved to disk.`);
           compiled++;
           
-          // Throttled delay to respect Gemini Free Tier rate limits (15 Requests Per Minute)
-          console.log(`    [RATE LIMIT] Sleeping for 4.5 seconds to prevent Rate Limit (RPM) triggers...`);
-          await new Promise((resolve) => setTimeout(resolve, 4500));
+          // Throttled delay to respect Gemini Free Tier rate limits (15 RPM for 1.5-flash)
+          console.log(`    [RATE LIMIT] Sleeping for 5s to stay within free tier RPM...`);
+          await new Promise((resolve) => setTimeout(resolve, 5000));
         } catch (err) {
-          console.error(`    [ERROR] Failed to compile "${tabId}" segment: ${err.message}`);
-          console.log(`    Retrying in 10 seconds (respecting rate limits)...`);
-          await new Promise((resolve) => setTimeout(resolve, 10000));
+          // If it's a quota/rate-limit error, the queryGemini function already waited — just retry
+          const isRateLimit = err.message.includes('429') || err.message.includes('quota') || err.message.includes('RESOURCE_EXHAUSTED');
+          if (isRateLimit) {
+            console.log(`    [RETRY] Attempting retry after quota wait...`);
+          } else {
+            console.error(`    [ERROR] Failed to compile "${tabId}" segment: ${err.message}`);
+            console.log(`    Retrying in 15 seconds...`);
+            await new Promise((resolve) => setTimeout(resolve, 15000));
+          }
           // Retry once
           try {
             const content = await queryAI([systemMessage, userMessage]);
             fs.writeFileSync(cachePath, content, 'utf8');
             console.log(`    [SUCCESS] Saved to disk (retry).`);
             compiled++;
-            await new Promise((resolve) => setTimeout(resolve, 4500));
+            await new Promise((resolve) => setTimeout(resolve, 5000));
           } catch (retryErr) {
-            console.error(`    [FATAL] Retry failed: ${retryErr.message}`);
+            console.error(`    [FATAL] Retry failed for "${tabId}" in "${unit.title}": ${retryErr.message}`);
+            console.log(`    [SKIP] Skipping segment — will recompile next run.`);
           }
         }
       }
