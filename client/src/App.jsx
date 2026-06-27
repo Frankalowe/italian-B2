@@ -92,23 +92,49 @@ export default function App() {
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
-        padding: '1rem 1.5rem', 
+        padding: '0.8rem 1.2rem', 
         borderBottom: '4px solid #000', 
         backgroundColor: '#fff', 
         position: 'sticky', 
         top: 0, 
         zIndex: 900 
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <span style={{ fontSize: '1.4rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.5px' }}>🇮🇹 Italiano B2</span>
-          <span style={{ fontSize: '0.75rem', fontWeight: 800, backgroundColor: '#000', color: '#fff', padding: '2px 6px', textTransform: 'uppercase' }}>Tutor</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 1, minWidth: 0 }}>
+          <span style={{ 
+            fontSize: '1.25rem', 
+            fontWeight: 900, 
+            textTransform: 'uppercase', 
+            letterSpacing: '-0.5px', 
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}>
+            🇮🇹 Italiano B2
+          </span>
+          <span style={{ 
+            fontSize: '0.7rem', 
+            fontWeight: 800, 
+            backgroundColor: '#000', 
+            color: '#fff', 
+            padding: '2px 6px', 
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap'
+          }}>
+            Tutor
+          </span>
         </div>
         <button 
           className="nb-btn btn-yellow" 
           onClick={() => setSidebarOpen(!sidebarOpen)} 
-          style={{ padding: '0.5rem 1rem', fontSize: '0.95rem', fontWeight: 900 }}
+          style={{ 
+            padding: '0.5rem 0.9rem', 
+            fontSize: '0.9rem', 
+            fontWeight: 900,
+            whiteSpace: 'nowrap',
+            flexShrink: 0
+          }}
         >
-          {sidebarOpen ? '✕ Close Menu' : '☰ Open Menu'}
+          {sidebarOpen ? '✕ Close' : '☰ Menu'}
         </button>
       </header>
 
