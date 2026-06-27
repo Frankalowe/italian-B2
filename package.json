@@ -9,6 +9,7 @@
     "client": "npm run --prefix client dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "precompile": "node server/precompile.js",
+    "precompile:push": "node server/precompile.js && git add server/lessons/ && git commit -m \"chore: auto-push precompiled Italian syllabus lessons\" && git push",
     "build": "cd client && npm install && npm run build && cd .. && rm -rf public && cp -r client/dist public"
   },
   "dependencies": {
