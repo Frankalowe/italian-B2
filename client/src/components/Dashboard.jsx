@@ -55,25 +55,6 @@ export default function Dashboard({ syllabus, progress, setView }) {
         </button>
       </div>
 
-      <div className="nb-grid">
-        <div className="nb-card accent-blue">
-          <h3 className="nb-card-title">Parola del Giorno</h3>
-          <p style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>{dailyWord.word}</p>
-          <p style={{ fontStyle: 'italic', fontSize: '1.1rem', marginBottom: '0.8rem' }}>/{dailyWord.pronunciation}/</p>
-          <div style={{ borderLeft: '4px solid #000', paddingLeft: '1rem', fontWeight: 600 }}>
-            {dailyWord.meaning}
-          </div>
-        </div>
-
-        <div className="nb-card accent-pink" style={{ backgroundColor: '#f472b6' }}>
-          <h3 className="nb-card-title">Proverbio del Giorno</h3>
-          <p style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '0.5rem' }}>"{proverb.italian}"</p>
-          <p style={{ fontWeight: 600, color: '#333', marginBottom: '1rem' }}>{proverb.english}</p>
-          <p style={{ fontSize: '0.9rem', backgroundColor: '#fff', padding: '8px', border: '2px solid #000', boxShadow: '2px 2px 0px #000' }}>
-            <strong>Tutor Tip:</strong> {proverb.explanation}
-          </p>
-        </div>
-      </div>
 
       <div className="nb-card accent-purple">
         <h3 className="nb-card-title">Quick Actions</h3>
