@@ -5,6 +5,11 @@ import WritingStudio from './components/WritingStudio';
 import SpeakingLounge from './components/SpeakingLounge';
 import ReadersCorner from './components/ReadersCorner';
 
+const getApiUrl = (path) => {
+  const base = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+  return `${base}${path}`;
+};
+
 export default function App() {
   const [view, setView] = useState('dashboard');
   const [syllabus, setSyllabus] = useState(null);
@@ -18,7 +23,7 @@ export default function App() {
   useEffect(() => {
     async function fetchSyllabus() {
       try {
-        const res = await fetch('http://localhost:3001/api/syllabus');
+        const res = await fetch(getApiUrl('/api/syllabus'));
         if (!res.ok) {
           throw new Error('Could not fetch syllabus data from the Express server.');
         }
