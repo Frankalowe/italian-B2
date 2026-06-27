@@ -234,7 +234,7 @@ export default function App() {
       </nav>
 
       {/* Main View Area */}
-      <main className="main-content" style={{ flex: 1, padding: '2rem 1.5rem', width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
+      <main className="main-content" style={{ flex: 1, width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
         {view === 'dashboard' && (
           <Dashboard 
             syllabus={syllabus} 

@@ -473,7 +473,7 @@ body {
   }
   
   .main-content {
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.5rem;
     max-width: 100%;
   }
   
@@ -543,6 +543,10 @@ body {
 }
 
 @media (max-width: 480px) {
+  .main-content {
+    padding: 0.8rem 0.25rem !important;
+  }
+
   .nav-links li {
     min-width: 100%;
   }
@@ -552,7 +556,9 @@ body {
   }
   
   .nb-card {
-    padding: 1.2rem;
+    padding: 0.8rem !important;
+    border-width: 3px !important;
+    box-shadow: 2px 2px 0px #000 !important;
   }
   
   .study-tabs button {

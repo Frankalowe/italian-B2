@@ -196,18 +196,20 @@ Ensure you write in clean Markdown using headers, lists, and tables where approp
           console.log(`    [SUCCESS] Saved to disk.`);
           compiled++;
           
-          // Small sleep to prevent hammering local Ollama API
-          await new Promise((resolve) => setTimeout(resolve, 1500));
+          // Throttled delay to respect Gemini Free Tier rate limits (15 Requests Per Minute)
+          console.log(`    [RATE LIMIT] Sleeping for 4.5 seconds to prevent Rate Limit (RPM) triggers...`);
+          await new Promise((resolve) => setTimeout(resolve, 4500));
         } catch (err) {
           console.error(`    [ERROR] Failed to compile "${tabId}" segment: ${err.message}`);
-          console.log(`    Retrying in 5 seconds...`);
-          await new Promise((resolve) => setTimeout(resolve, 5000));
+          console.log(`    Retrying in 10 seconds (respecting rate limits)...`);
+          await new Promise((resolve) => setTimeout(resolve, 10000));
           // Retry once
           try {
             const content = await queryAI([systemMessage, userMessage]);
             fs.writeFileSync(cachePath, content, 'utf8');
             console.log(`    [SUCCESS] Saved to disk (retry).`);
             compiled++;
+            await new Promise((resolve) => setTimeout(resolve, 4500));
           } catch (retryErr) {
             console.error(`    [FATAL] Retry failed: ${retryErr.message}`);
           }
