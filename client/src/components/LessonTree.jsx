@@ -265,69 +265,82 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
         <p className="page-subtitle">Master modules step-by-step from A1 to B2 proficiency.</p>
       </div>
 
-      {/* Level Selector Tabs */}
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-        {Object.keys(syllabus).map((lvl) => (
-          <button
-            key={lvl}
-            className={`nb-btn ${activeLevel === lvl ? 'btn-green' : 'btn-yellow'}`}
-            style={{ 
-              fontSize: '1.2rem', 
-              padding: '1rem 2rem',
-              transform: activeLevel === lvl ? 'translate(2px, 2px)' : 'none',
-              boxShadow: activeLevel === lvl ? '2px 2px 0px #000' : '4px 4px 0px #000'
-            }}
-            onClick={() => {
-              setActiveLevel(lvl);
+      {/* Selectors Grid (Level and Unit Dropdowns Side-by-Side) */}
+      <div className="nb-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+        {/* CEFR Level Selector */}
+        <div>
+          <label style={{ fontWeight: 900, textTransform: 'uppercase', fontSize: '0.95rem', marginBottom: '0.8rem', display: 'block', color: '#555' }}>
+            Select CEFR Level
+          </label>
+          <select
+            className="nb-select"
+            value={activeLevel}
+            onChange={(e) => {
+              setActiveLevel(e.target.value);
               setSelectedUnit(null);
             }}
+            style={{
+              fontSize: '1.05rem',
+              padding: '0.8rem 1rem',
+              border: '3px solid #000',
+              borderRadius: 0,
+              backgroundColor: '#fff',
+              boxShadow: '3px 3px 0px #000',
+              width: '100%',
+              fontWeight: 800,
+              cursor: 'pointer'
+            }}
           >
-            {lvl} - {syllabus[lvl].title.split(' - ')[1]}
-          </button>
-        ))}
+            {Object.keys(syllabus).map(lvl => (
+              <option key={lvl} value={lvl}>
+                {lvl}: {syllabus[lvl].title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Unit Selector Dropdown */}
+        <div>
+          <label style={{ fontWeight: 900, textTransform: 'uppercase', fontSize: '0.95rem', marginBottom: '0.8rem', display: 'block', color: '#555' }}>
+            Select Unit Module
+          </label>
+          <select
+            className="nb-select"
+            value={selectedUnit ? selectedUnit.id : ''}
+            onChange={(e) => {
+              const selectedId = e.target.value;
+              const unit = levelData.units.find(u => u.id === selectedId);
+              setSelectedUnit(unit || null);
+            }}
+            style={{
+              fontSize: '1.05rem',
+              padding: '0.8rem 1rem',
+              border: '3px solid #000',
+              borderRadius: 0,
+              backgroundColor: '#fff',
+              boxShadow: '3px 3px 0px #000',
+              width: '100%',
+              fontWeight: 800,
+              cursor: 'pointer'
+            }}
+          >
+            <option value="">-- Choose a Unit Module --</option>
+            {levelData.units.map((unit, idx) => {
+              const isCompleted = progress[unit.id];
+              return (
+                <option key={unit.id} value={unit.id}>
+                  Unit {idx + 1}: {unit.title} {isCompleted ? '✓ (Completed)' : ''}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       </div>
 
       {/* Level Header Card */}
       <div className="nb-card accent-blue" style={{ marginBottom: '2rem' }}>
         <h3 className="nb-card-title">{levelData.title}</h3>
         <p style={{ fontWeight: 600, fontSize: '0.95rem' }}>{levelData.description}</p>
-      </div>
-
-      {/* Unit Selector Dropdown */}
-      <div style={{ marginBottom: '2rem', maxWidth: '500px' }}>
-        <label style={{ fontWeight: 900, textTransform: 'uppercase', fontSize: '0.95rem', marginBottom: '0.8rem', display: 'block', color: '#555' }}>
-          Select Unit Module
-        </label>
-        <select
-          className="nb-select"
-          value={selectedUnit ? selectedUnit.id : ''}
-          onChange={(e) => {
-            const selectedId = e.target.value;
-            const unit = levelData.units.find(u => u.id === selectedId);
-            setSelectedUnit(unit || null);
-          }}
-          style={{
-            fontSize: '1.05rem',
-            padding: '0.8rem 1rem',
-            border: '3px solid #000',
-            borderRadius: 0,
-            backgroundColor: '#fff',
-            boxShadow: '3px 3px 0px #000',
-            width: '100%',
-            fontWeight: 800,
-            cursor: 'pointer'
-          }}
-        >
-          <option value="">-- Choose a Unit Module --</option>
-          {levelData.units.map((unit, idx) => {
-            const isCompleted = progress[unit.id];
-            return (
-              <option key={unit.id} value={unit.id}>
-                Unit {idx + 1}: {unit.title} {isCompleted ? '✓ (Completed)' : ''}
-              </option>
-            );
-          })}
-        </select>
       </div>      {/* Full Width Study Guides & Practice Section */}
       {selectedUnit ? (
         <div className="nb-card accent-purple" style={{ marginTop: '2rem' }}>
