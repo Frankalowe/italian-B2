@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+const getApiUrl = (path) => {
+  const base = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+  return `${base}${path}`;
+};
+
 export default function ReadersCorner() {
   const [level, setLevel] = useState('A1');
   const [topic, setTopic] = useState('La cucina italiana');
@@ -26,7 +31,7 @@ export default function ReadersCorner() {
     setShowTranslation(false);
 
     try {
-      const res = await fetch('http://localhost:3001/api/ollama/generate-reading', {
+      const res = await fetch(getApiUrl('/api/ollama/generate-reading'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ level, topic })

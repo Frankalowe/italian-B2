@@ -140,6 +140,11 @@ function parseInlineStyles(text) {
   return parsed;
 }
 
+const getApiUrl = (path) => {
+  const base = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+  return `${base}${path}`;
+};
+
 export default function LessonTree({ syllabus, progress, toggleUnitProgress, setSelectedPrompt, setView }) {
   const [activeLevel, setActiveLevel] = useState('A1');
   const [selectedUnit, setSelectedUnit] = useState(null);
@@ -166,7 +171,7 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
 
     async function checkLessonCache() {
       try {
-        const res = await fetch(`http://localhost:3001/api/lessons/${selectedUnit.id}/${activeTab}`);
+        const res = await fetch(getApiUrl(`/api/lessons/${selectedUnit.id}/${activeTab}`));
         if (res.ok) {
           const data = await res.json();
           if (data.found) {
@@ -188,7 +193,7 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
     setLessonContent('');
     setEditedContent('');
     try {
-      const res = await fetch('http://localhost:3001/api/ollama/generate-lesson', {
+      const res = await fetch(getApiUrl('/api/ollama/generate-lesson'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -214,7 +219,7 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
   const handleSaveChanges = async () => {
     if (!selectedUnit) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/lessons/${selectedUnit.id}/${activeTab}`, {
+      const res = await fetch(getApiUrl(`/api/lessons/${selectedUnit.id}/${activeTab}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: editedContent })
@@ -231,7 +236,7 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
     if (!selectedUnit) return;
     if (!window.confirm(`Are you sure you want to delete this ${activeTab} guide from your local database? This cannot be undone.`)) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/lessons/${selectedUnit.id}/${activeTab}`, {
+      const res = await fetch(getApiUrl(`/api/lessons/${selectedUnit.id}/${activeTab}`), {
         method: 'DELETE'
       });
       if (!res.ok) throw new Error('Failed to delete segment.');

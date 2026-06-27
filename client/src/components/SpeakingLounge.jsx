@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+const getApiUrl = (path) => {
+  const base = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+  return `${base}${path}`;
+};
+
 export default function SpeakingLounge({ prefilledPrompt }) {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -126,7 +131,7 @@ export default function SpeakingLounge({ prefilledPrompt }) {
         content: msg.content
       }));
 
-      const res = await fetch('http://localhost:3001/api/ollama/chat', {
+      const res = await fetch(getApiUrl('/api/ollama/chat'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: backendPayload })

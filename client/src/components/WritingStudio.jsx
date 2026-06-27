@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+const getApiUrl = (path) => {
+  const base = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+  return `${base}${path}`;
+};
+
 const SAMPLE_PROMPTS = {
   A1: "Presentati in italiano. Scrivi il tuo nome, età e da dove vieni.",
   A2: "Descrivi cosa hai fatto ieri o durante il fine settimana scorso.",
@@ -44,7 +49,7 @@ export default function WritingStudio({ prefilledPrompt }) {
     setFeedback(null);
 
     try {
-      const res = await fetch('http://localhost:3001/api/ollama/evaluate', {
+      const res = await fetch(getApiUrl('/api/ollama/evaluate'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, prompt, level })
