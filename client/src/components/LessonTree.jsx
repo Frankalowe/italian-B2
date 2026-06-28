@@ -158,10 +158,6 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
   const [loadingLesson, setLoadingLesson] = useState(false);
   const [lessonError, setLessonError] = useState('');
 
-  // Editable lesson guide states
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState('');
-
   // Restore last selected unit on mount (after level data is known)
   useEffect(() => {
     const savedUnitId = lsGet('ita_last_unit_id', null);
@@ -175,89 +171,27 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
   // Reset states and check cache when selected unit or active tab changes
   useEffect(() => {
     setLessonContent('');
-    setEditedContent('');
-    setIsEditing(false);
     setLessonError('');
     if (!selectedUnit) return;
 
     async function checkLessonCache() {
+      setLoadingLesson(true);
       try {
         const res = await fetch(`/api/lessons/${selectedUnit.id}/${activeTab}`);
         if (res.ok) {
           const data = await res.json();
           if (data.found) {
             setLessonContent(data.content);
-            setEditedContent(data.content);
           }
         }
       } catch (err) {
         console.error('Failed to check lesson cache:', err);
+      } finally {
+        setLoadingLesson(false);
       }
     }
     checkLessonCache();
   }, [selectedUnit, activeTab]);
-
-  const fetchLessonContent = async () => {
-    if (!selectedUnit) return;
-    setLoadingLesson(true);
-    setLessonError('');
-    setLessonContent('');
-    setEditedContent('');
-    try {
-      const res = await fetch('/api/ollama/generate-lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: selectedUnit.title,
-          grammar: selectedUnit.grammar,
-          vocabulary: selectedUnit.vocabulary,
-          level: activeLevel,
-          unitId: selectedUnit.id,
-          tabId: activeTab
-        })
-      });
-      if (!res.ok) throw new Error('Failed to connect to the Vercel API for generating the study guide.');
-      const data = await res.json();
-      setLessonContent(data.content);
-      setEditedContent(data.content);
-    } catch (err) {
-      setLessonError(err.message || 'Error occurred.');
-    } finally {
-      setLoadingLesson(false);
-    }
-  };
-
-  const handleSaveChanges = async () => {
-    if (!selectedUnit) return;
-    try {
-      const res = await fetch(`/api/lessons/${selectedUnit.id}/${activeTab}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: editedContent })
-      });
-      if (!res.ok) throw new Error('Failed to save changes.');
-      setLessonContent(editedContent);
-      setIsEditing(false);
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
-  const handleDeleteLesson = async () => {
-    if (!selectedUnit) return;
-    if (!window.confirm(`Are you sure you want to delete this ${activeTab} guide? This cannot be undone.`)) return;
-    try {
-      const res = await fetch(`/api/lessons/${selectedUnit.id}/${activeTab}`, {
-        method: 'DELETE'
-      });
-      if (!res.ok) throw new Error('Failed to delete segment.');
-      setLessonContent('');
-      setEditedContent('');
-      setIsEditing(false);
-    } catch (err) {
-      alert(err.message);
-    }
-  };
 
   const handleStartWriting = (prompt, level) => {
     setSelectedPrompt({ prompt, level });
@@ -441,35 +375,6 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
           )}
 
           {lessonContent && (
-            <div style={{ marginTop: '1.5rem' }}>
-              {isEditing ? (
-                <div>
-                  <textarea
-                    className="nb-textarea"
-                    style={{
-                      width: '100%',
-                      height: '400px',
-                      fontFamily: 'Outfit, monospace',
-                      fontSize: '1.05rem',
-                      border: '3px solid #000',
-                      padding: '1rem',
-                      boxShadow: '3px 3px 0px #000',
-                      marginBottom: '1.5rem'
-                    }}
-                    value={editedContent}
-                    onChange={(e) => setEditedContent(e.target.value)}
-                  />
-                  <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button className="nb-btn btn-green" onClick={handleSaveChanges}>
-                      💾 Save Edits
-                    </button>
-                    <button className="nb-btn btn-red" onClick={() => { setIsEditing(false); setEditedContent(lessonContent); }}>
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div>
                   <div className="study-content-card" style={{ 
                     border: '3px solid #000', 
                     backgroundColor: '#fff', 
@@ -477,14 +382,6 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
                     marginBottom: '1.5rem'
                   }}>
                     <div className="markdown-content" dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(lessonContent) }} />
-                  </div>
-                  <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button className="nb-btn btn-yellow" onClick={() => setIsEditing(true)}>
-                      ✏️ Edit Notes
-                    </button>
-                    <button className="nb-btn btn-red" onClick={handleDeleteLesson}>
-                      🗑️ Delete Chapter
-                    </button>
                   </div>
                 </div>
               )}
