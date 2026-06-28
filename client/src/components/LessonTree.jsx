@@ -375,16 +375,17 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
           )}
 
           {lessonContent && (
-                  <div className="study-content-card" style={{ 
-                    border: '3px solid #000', 
-                    backgroundColor: '#fff', 
-                    boxShadow: '3px 3px 0px #000',
-                    marginBottom: '1.5rem'
-                  }}>
-                    <div className="markdown-content" dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(lessonContent) }} />
-                  </div>
-                </div>
-              )}
+            <div>
+              <div className="study-content-card" style={{ 
+                border: '3px solid #000', 
+                backgroundColor: '#fff', 
+                boxShadow: '3px 3px 0px #000',
+                marginBottom: '1.5rem'
+              }}>
+                <div className="markdown-content" dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(lessonContent) }} />
+              </div>
+            </div>
+          )}
             </div>
           )}
 
