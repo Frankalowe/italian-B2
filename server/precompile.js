@@ -29,43 +29,52 @@ function loadEnv(filePath) {
 loadEnv(rootEnvPath);
 loadEnv(envPath);
 
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434/api/chat';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'gemma4:e2b';
+const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-// Helper to query local Ollama LLM
-async function queryOllama(messages) {
-  const payload = {
-    model: OLLAMA_MODEL,
-    messages: messages,
-    stream: false,
-    options: {
-      temperature: 0.3,
-      num_predict: 4096
-    }
-  };
+// Helper to query OpenAI API
+async function queryOpenAI(messages) {
+  if (!OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY is not set. Add it to your .env file.');
+  }
 
-  const response = await fetch(OLLAMA_URL, {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: OPENAI_MODEL,
+      messages: messages,
+      temperature: 0.3,
+      max_tokens: 4096
+    })
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Ollama error: ${response.status} - ${errText}`);
+    throw new Error(`OpenAI error: ${response.status} - ${errText}`);
   }
 
   const data = await response.json();
-  if (!data.message?.content) {
-    throw new Error('Ollama returned an empty response.');
+  const text = data.choices?.[0]?.message?.content;
+  if (!text) throw new Error('OpenAI returned an empty response.');
+
+  // Log token usage for cost tracking
+  if (data.usage) {
+    const { prompt_tokens, completion_tokens, total_tokens } = data.usage;
+    const cost = ((prompt_tokens / 1_000_000) * 0.15) + ((completion_tokens / 1_000_000) * 0.60);
+    console.log(`      [TOKENS] in:${prompt_tokens} out:${completion_tokens} total:${total_tokens} (~$${cost.toFixed(5)})`);
   }
-  return data.message.content;
+
+  return text;
 }
 
-// Unified Router — uses local Ollama (no API key, no rate limits)
+// Unified Router — uses OpenAI API
 async function queryAI(messages) {
-  console.log(`      [LOCAL] Querying Ollama (${OLLAMA_MODEL})...`);
-  return await queryOllama(messages);
+  console.log(`      [OPENAI] Querying ${OPENAI_MODEL}...`);
+  return await queryOpenAI(messages);
 }
 
 // Generate prompt details based on segment
@@ -121,7 +130,7 @@ async function precompile() {
   const levels = Object.keys(syllabus);
   
   console.log(`==================================================`);
-  console.log(`🇮🇹 Starting Italian Syllabus Precompiler (${OLLAMA_MODEL})`);
+  console.log(`🇮🇹 Starting Italian Syllabus Precompiler (OpenAI ${OPENAI_MODEL})`);
   console.log(`Targeting levels: ${levels.join(', ')}`);
   console.log(`==================================================\n`);
 
