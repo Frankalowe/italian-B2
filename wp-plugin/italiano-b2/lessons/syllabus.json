@@ -1,0 +1,470 @@
+{
+  "A1": {
+    "title": "Phase 1: A1 (Beginner)",
+    "description": "Goal: Survive basic daily situations. Establish pronunciation, basic nouns, articles, and regular present tense.",
+    "units": [
+      {
+        "id": "a1_u1",
+        "title": "Alphabet & Pronunciation",
+        "grammar": "Italian alphabet, vowel sounds, double consonants (caffè, penna), stress patterns, and common pronunciation rules (e.g. C and G before vowels).",
+        "vocabulary": "Greetings (Ciao, Buongiorno, Arrivederci), spellings of names, nationalities, and basic numbers 1-20.",
+        "examples": [
+          { "italian": "Come si scrive? C-A-F-F-È.", "english": "How do you write it? C-A-F-F-E." },
+          { "italian": "Buonasera, mi chiamo Giovanni.", "english": "Good evening, my name is Giovanni." }
+        ],
+        "speakingPrompt": "Spell your name out loud in Italian and introduce yourself using standard greeting expressions.",
+        "writingPrompt": "Write down a transcript of a brief conversation between two people meeting for the first time, greeting each other and spelling their names."
+      },
+      {
+        "id": "a1_u2",
+        "title": "Articles, Gender & Number",
+        "grammar": "Definite articles (il, lo, la, i, gli, le) and indefinite articles (un, uno, una, un'). Noun endings singular to plural (-o/-i, -a/-e, -e/-i). Noun-adjective agreement.",
+        "vocabulary": "Common objects, colors, and basic descriptions.",
+        "examples": [
+          { "italian": "Lo studente ha un libro rosso.", "english": "The student has a red book." },
+          { "italian": "Le penne nere sono sul tavolo.", "english": "The black pens are on the table." }
+        ],
+        "speakingPrompt": "Describe three things in your room, stating their colors and whether they are singular or plural.",
+        "writingPrompt": "Write a short list of 5 items you see in an office, using their correct definite articles (e.g., 'lo schermo, la sedia...')."
+      },
+      {
+        "id": "a1_u3",
+        "title": "Present Indicative of Essere, Avere & Regular Verbs",
+        "grammar": "Present tense indicative of the auxiliary verbs 'essere' (to be) and 'avere' (to have) and regular verbs ending in -are, -ere, -ire (with/without -isc).",
+        "vocabulary": "Daily activities, jobs/occupations, and numbers 20-100.",
+        "examples": [
+          { "italian": "Loro sono ingegneri e hanno trenta anni.", "english": "They are engineers and they are thirty years old." },
+          { "italian": "Io parlo l'italiano e capisco bene il francese.", "english": "I speak Italian and understand French well." }
+        ],
+        "speakingPrompt": "State your age, occupation, and talk about two things you do every day using regular verbs.",
+        "writingPrompt": "Write a short paragraph (4 sentences) explaining your profession and what languages you study."
+      },
+      {
+        "id": "a1_u4",
+        "title": "Adjectives, Possessives & Demonstratives",
+        "grammar": "Adjectives agreement. Possessive adjectives (mio, tuo, suo, nostro, vostro, loro) and their articles. Demonstratives (questo, quello).",
+        "vocabulary": "Family members, descriptions of relatives (alto, giovane, simpatico), and pets.",
+        "examples": [
+          { "italian": "Il mio cane è molto simpatico.", "english": "My dog is very friendly." },
+          { "italian": "Questa è mia sorella e quello è suo figlio.", "english": "This is my sister and that is her son." }
+        ],
+        "speakingPrompt": "Describe your family members or close friends, explaining their relations to you and their personality traits.",
+        "writingPrompt": "Write a short paragraph introducing your family, using possessives correctly (e.g. 'mio padre', 'mia madre', 'i miei fratelli')."
+      },
+      {
+        "id": "a1_u5",
+        "title": "Prepositions, Dates & Time",
+        "grammar": "Simple prepositions (di, a, da, in, con, su, per, tra, fra). Asking/telling dates, time ('Che ore sono?'), and days of the week.",
+        "vocabulary": "Days of the week, months, seasons, transportation methods (in treno, in macchina), and places in town.",
+        "examples": [
+          { "italian": "Vado a Roma in treno alle nove di mattina.", "english": "I am going to Rome by train at nine in the morning." },
+          { "italian": "Oggi è lunedì primo giugno.", "english": "Today is Monday, June first." }
+        ],
+        "speakingPrompt": "Explain your weekly schedule: what days you study, what time you wake up, and how you travel to work/school.",
+        "writingPrompt": "Draft an email invitation to a friend for dinner. State the date, time, and location using prepositions."
+      },
+      {
+        "id": "a1_u6",
+        "title": "Basic Writing & Everyday Situations",
+        "grammar": "Consolidation of A1 grammar. Simple sentence construction, negative sentences (non + verb).",
+        "vocabulary": "Food, shopping expressions, buying groceries, ordering in a cafe.",
+        "examples": [
+          { "italian": "Vorrei un cornetto e un cappuccino, per favore.", "english": "I would like a croissant and a cappuccino, please." },
+          { "italian": "Quanto costa questo chilo di mele?", "english": "How much does this kilo of apples cost?" }
+        ],
+        "speakingPrompt": "Roleplay ordering breakfast at an Italian bar. Ask for pastries, coffee, and request the bill.",
+        "writingPrompt": "Write a message describing your typical day from breakfast to evening routine (50-80 words)."
+      }
+    ]
+  },
+  "A2": {
+    "title": "Phase 2: A2 (Elementary)",
+    "description": "Goal: Handle everyday conversations. Expand vocabulary, talk about past experiences, use reflexives and direct/indirect pronouns.",
+    "units": [
+      {
+        "id": "a2_u1",
+        "title": "The Past Tense (Passato Prossimo)",
+        "grammar": "Passato Prossimo conjugation. Choosing 'essere' vs. 'avere' auxiliaries. Past participle agreement rules with 'essere' (e.g., 'siamo andati/e').",
+        "vocabulary": "Travel terms, hotel bookings, past time expressions (ieri, fa, scorso).",
+        "examples": [
+          { "italian": "L'anno scorso siamo andati in vacanza in Italia.", "english": "Last year we went on vacation to Italy." },
+          { "italian": "Ho visto un bel film al cinema sabato scorso.", "english": "I saw a nice movie at the cinema last Saturday." }
+        ],
+        "speakingPrompt": "Tell a story about what you did on your last vacation. Where did you stay and what did you eat?",
+        "writingPrompt": "Write a postcard to a friend detailing your arrival in an Italian city and what monuments you visited yesterday."
+      },
+      {
+        "id": "a2_u2",
+        "title": "Reflexive Verbs & Routines",
+        "grammar": "Conjugating reflexive verbs (svegliarsi, vestirsi, divertirsi) in present and past tenses. Position of reflexive pronouns.",
+        "vocabulary": "Daily personal care, clothing, body parts, and feelings.",
+        "examples": [
+          { "italian": "Mi sveglio alle sette e mi vesto subito.", "english": "I wake up at seven and get dressed immediately." },
+          { "italian": "Ieri mi sono annoiato molto alla riunione.", "english": "Yesterday I was very bored at the meeting." }
+        ],
+        "speakingPrompt": "Explain your morning and evening routines in detail, mentioning at least four reflexive verbs.",
+        "writingPrompt": "Describe a day in the life of a friend or family member, focusing on their morning preparation and habits."
+      },
+      {
+        "id": "a2_u3",
+        "title": "Direct & Indirect Object Pronouns",
+        "grammar": "Direct object pronouns (mi, ti, lo, la, ci, vi, li, le) and indirect object pronouns (mi, ti, gli, le, ci, vi, loro). Pronoun placement with verbs.",
+        "vocabulary": "Dining at restaurants, shopping for clothes, and interactions.",
+        "examples": [
+          { "italian": "La pizza? L'ho mangiata ieri.", "english": "The pizza? I ate it yesterday." },
+          { "italian": "Le ho telefonato ieri per invitarla.", "english": "I called her yesterday to invite her." }
+        ],
+        "speakingPrompt": "Describe what you would buy for a friend's birthday and explain why you chose it, using pronouns.",
+        "writingPrompt": "Write a dialogue between a shop assistant and a client trying on and buying clothes."
+      },
+      {
+        "id": "a2_u4",
+        "title": "Modal Verbs & Expressing Needs",
+        "grammar": "Modal verbs: potere (can), volere (want), dovere (must), and sapere (know how to). Using modals in past tenses.",
+        "vocabulary": "Health, expressing symptoms, pharmacy visits, and emergency expressions.",
+        "examples": [
+          { "italian": "Oggi non posso uscire perché devo studiare.", "english": "Today I cannot go out because I must study." },
+          { "italian": "Non ho potuto finire il lavoro ieri sera.", "english": "I was not able to finish the work last night." }
+        ],
+        "speakingPrompt": "Explain a situation where you had to cancel plans due to illness or responsibilities, using modal verbs.",
+        "writingPrompt": "Write a doctor's note or an email explaining why you cannot attend work or school tomorrow."
+      },
+      {
+        "id": "a2_u5",
+        "title": "Comparatives & Superlatives",
+        "grammar": "Comparatives of majority, minority, and equality (più/meno... di/che, come, quanto). Absolute and relative superlatives. Irregular forms (migliore, ottimo).",
+        "vocabulary": "Geography, cities, describing places, weather, and climate.",
+        "examples": [
+          { "italian": "Milano è più fredda di Palermo ma meno piovosa di Londra.", "english": "Milan is colder than Palermo but less rainy than London." },
+          { "italian": "Questo ristorante prepara la pasta migliore della città.", "english": "This restaurant makes the best pasta in town." }
+        ],
+        "speakingPrompt": "Compare the weather and lifestyle of your hometown with an Italian city of your choice.",
+        "writingPrompt": "Write a comparative review of two hotels or services you used during a trip."
+      },
+      {
+        "id": "a2_u6",
+        "title": "Intro to Imperfect & Future Tenses",
+        "grammar": "Introduction to conjugations of Imperfetto (past descriptions) and Futuro Semplice (future projections).",
+        "vocabulary": "Hobbies, sports, describing weather, and simple predictions.",
+        "examples": [
+          { "italian": "Da giovane leggevo molti libri di avventura.", "english": "When I was young, I read many adventure books." },
+          { "italian": "Domani farà bel tempo in tutta Italia.", "english": "Tomorrow the weather will be nice across Italy." }
+        ],
+        "speakingPrompt": "Contrast what you used to do in your free time in the past with what you plan to do next weekend.",
+        "writingPrompt": "Write a paragraph describing a childhood memory, setting the scene with imperfect verbs."
+      }
+    ]
+  },
+  "B1": {
+    "title": "Phase 3: B1 Foundation",
+    "description": "Goal: Function independently. Master past narration, relative pronouns, conditionals, particles Ci/Ne, and professional terminology.",
+    "units": [
+      {
+        "id": "b1_u1",
+        "title": "Imperfetto & Past Contrasts",
+        "grammar": "Mastery of Imperfetto. Choosing between Passato Prossimo (completed actions) and Imperfetto (background states, habits, weather) in complex narrations.",
+        "vocabulary": "School and university life, subjects, childhood memories.",
+        "examples": [
+          { "italian": "Mentre dormivo, il telefono ha squillato all'improvviso.", "english": "While I was sleeping, the phone suddenly rang." },
+          { "italian": "Quando andavo a scuola, studiavo sempre il pomeriggio.", "english": "When I went to school, I always studied in the afternoon." }
+        ],
+        "speakingPrompt": "Tell a story about an unexpected event that happened to you at school or university.",
+        "writingPrompt": "Write a narrative essay (120-150 words) about a memorable day in your childhood using both past tenses."
+      },
+      {
+        "id": "b1_u2",
+        "title": "Future Tense Mastery",
+        "grammar": "Conjugating and using Futuro Semplice and Futuro Anteriore (future perfect). Expressing hypothetical future scenarios and assumptions.",
+        "vocabulary": "Jobs, recruitment, working environments, and professional career goals.",
+        "examples": [
+          { "italian": "Appena avrò completato il progetto, farò una presentazione.", "english": "As soon as I have completed the project, I will make a presentation." },
+          { "italian": "Forse avranno dimenticato l'appuntamento.", "english": "Perhaps they forgot the appointment (future of probability)." }
+        ],
+        "speakingPrompt": "Describe where you will work, live, and how you will use Italian five years from now.",
+        "writingPrompt": "Write an application summary outlining your future qualifications and career development plans."
+      },
+      {
+        "id": "b1_u3",
+        "title": "Combined Pronouns",
+        "grammar": "Forming combined pronouns (me lo, te la, glielo, ce li, ve le, etc.). Position with respect to regular verbs and past participles.",
+        "vocabulary": "Office communications, managing assignments, banking, and financial services.",
+        "examples": [
+          { "italian": "Hai mandato i documenti al direttore? Sì, glieli ho spediti ieri.", "english": "Did you send the documents to the director? Yes, I sent them to him yesterday." },
+          { "italian": "Se hai bisogno del libro, te lo porto stasera.", "english": "If you need the book, I'll bring it to you tonight." }
+        ],
+        "speakingPrompt": "Explain how you managed a task or processed documentation at work using combined pronouns.",
+        "writingPrompt": "Write a dialogue between a bank employee and a customer discussing loan documents using double pronouns."
+      },
+      {
+        "id": "b1_u4",
+        "title": "Relative Pronouns",
+        "grammar": "Subject and object relative pronouns: 'che', 'cui' (preceded by prepositions), 'chi' (he who/whoever), and 'quello che/ciò che'.",
+        "vocabulary": "Housing search, renting apartments, and administrative processes.",
+        "examples": [
+          { "italian": "La casa in cui abito è molto luminosa.", "english": "The house in which I live is very bright." },
+          { "italian": "Ciò che mi preoccupa di più è il contratto di affitto.", "english": "What worries me the most is the rental contract." }
+        ],
+        "speakingPrompt": "Describe your ideal apartment, specifying details using relative pronouns.",
+        "writingPrompt": "Draft an email to a real estate agent asking for information on a property, describing the features you require."
+      },
+      {
+        "id": "b1_u5",
+        "title": "The Present Conditional Mood",
+        "grammar": "Conjugation of Condizionale Presente. Expressing polite requests, advice, desires, and hypothetical situations.",
+        "vocabulary": "Healthcare, booking medical appointments, talking to a doctor, and descriptions of symptoms.",
+        "examples": [
+          { "italian": "Mi piacerebbe parlare con il dottore, se possibile.", "english": "I would like to speak with the doctor, if possible." },
+          { "italian": "Dovresti riposare di più ed evitare sforzi.", "english": "You should rest more and avoid exertion." }
+        ],
+        "speakingPrompt": "Roleplay calling a clinic. Describe symptoms politely and request a convenient appointment.",
+        "writingPrompt": "Write an advice column response suggesting lifestyle changes for a reader dealing with stress."
+      },
+      {
+        "id": "b1_u6",
+        "title": "Particles Ci & Ne",
+        "grammar": "Locative 'ci' and partitive/specifying 'ne'. Position with simple and compound tenses. Idiomatic uses (e.g. farcela, andarsene).",
+        "vocabulary": "Local administration, residency applications, public services, and permits.",
+        "examples": [
+          { "italian": "Sei andato in questura? Sì, ci vado adesso.", "english": "Did you go to the police headquarters? Yes, I am going there now." },
+          { "italian": "Quanti moduli ti servono? Ne servono tre.", "english": "How many forms do you need? I need three of them." }
+        ],
+        "speakingPrompt": "Explain the process of registering at a city hall, specifying quantities and locations using ci and ne.",
+        "writingPrompt": "Write a note to a colleague explaining how to submit expense receipts, using 'ci' and 'ne' correctly."
+      }
+    ]
+  },
+  "B1_plus": {
+    "title": "Phase 4: B1+ Advanced Foundation",
+    "description": "Goal: Speak comfortably about complex topics. Master the present/past subjunctive, passive constructions, reported speech, and gerunds.",
+    "units": [
+      {
+        "id": "b1p_u1",
+        "title": "Present Subjunctive (Congiuntivo Presente)",
+        "grammar": "Forming Congiuntivo Presente. Identifying triggers: verbs of opinion (pensare, credere), emotion (sperare, temere), and doubt.",
+        "vocabulary": "Social changes, civil rights, and community development.",
+        "examples": [
+          { "italian": "Spero che il governo prenda una decisione corretta.", "english": "I hope the government makes a correct decision." },
+          { "italian": "Credo che l'italiano sia una lingua melodica.", "english": "I believe that Italian is a melodic language." }
+        ],
+        "speakingPrompt": "Express your opinions on how social media is changing relationships, using 'Credo che...', 'Penso che...'.",
+        "writingPrompt": "Write an opinion paragraph (100-120 words) on the importance of local community involvement."
+      },
+      {
+        "id": "b1p_u2",
+        "title": "Past Subjunctive (Congiuntivo Passato)",
+        "grammar": "Forming Congiuntivo Passato. Subjunctive tense agreement rules in sentences referring to past events.",
+        "vocabulary": "Political updates, local elections, and government policies.",
+        "examples": [
+          { "italian": "Temo che abbiano preso la decisione sbagliata.", "english": "I fear that they made the wrong decision." },
+          { "italian": "È strano che non sia ancora arrivato nessuno.", "english": "It is strange that nobody has arrived yet." }
+        ],
+        "speakingPrompt": "Express your thoughts on a recent local election or news item. Did the public make the right choice?",
+        "writingPrompt": "Write a short report summarizing a past debate and sharing your evaluation of the arguments."
+      },
+      {
+        "id": "b1p_u3",
+        "title": "Reported Speech (Discorso Indiretto)",
+        "grammar": "Tense changes when converting direct speech to reported speech. Transitions from present/past to future-in-the-past.",
+        "vocabulary": "Media, news reports, journalism, and quoting sources.",
+        "examples": [
+          { "italian": "Ha detto che sarebbe venuto il giorno dopo.", "english": "He said that he would come the next day." },
+          { "italian": "Il giornalista ha annunciato che l'accordo era firmato.", "english": "The journalist announced that the agreement was signed." }
+        ],
+        "speakingPrompt": "Report what an Italian news reporter or politician stated in a recent interview.",
+        "writingPrompt": "Write a news summary reporting on statements made by local community leaders."
+      },
+      {
+        "id": "b1p_u4",
+        "title": "The Passive Voice",
+        "grammar": "Forming passive sentences using 'essere' and 'venire'. Expressing necessity using 'andare' + past participle (e.g., 'va fatto').",
+        "vocabulary": "Environmental policies, ecology, and climate change debates.",
+        "examples": [
+          { "italian": "Questo problema va risolto al più presto.", "english": "This problem must be solved as soon as possible." },
+          { "italian": "Molte foreste vengono distrutte ogni anno.", "english": "Many forests are destroyed every year." }
+        ],
+        "speakingPrompt": "Present a solution to a local pollution issue using passive constructions to emphasize actions.",
+        "writingPrompt": "Write an article describing the actions taken by local organizations to reduce energy consumption."
+      },
+      {
+        "id": "b1p_u5",
+        "title": "The Gerund (Gerundio)",
+        "grammar": "Present and past gerunds. Expressing implicit clauses of cause, time, condition, or concession (e.g. 'pur sapendo').",
+        "vocabulary": "Economic terms, inflation, market trends, and finance.",
+        "examples": [
+          { "italian": "Pur avendo studiato, non ricordavo le risposte.", "english": "Despite having studied, I didn't remember the answers." },
+          { "italian": "Lavorando costantemente, otterrai grandi risultati.", "english": "By working constantly, you will achieve great results." }
+        ],
+        "speakingPrompt": "Explain how you overcame a major difficulty by utilizing gerund clauses.",
+        "writingPrompt": "Write a column assessing the state of the local economy, utilizing gerunds to link causes and results."
+      },
+      {
+        "id": "b1p_u6",
+        "title": "Current Events Debate",
+        "grammar": "Synthesizing B1+ grammar rules. Structuring comparisons, pros and cons, and logical progressions.",
+        "vocabulary": "Immigration, cultural diversity, and social integration.",
+        "examples": [
+          { "italian": "Da un lato penso che sia necessario, dall'altro temo le conseguenze.", "english": "On one hand I think it is necessary, on the other hand I fear the consequences." },
+          { "italian": "Si dice che l'integrazione culturale arricchisca la società.", "english": "It is said that cultural integration enriches society." }
+        ],
+        "speakingPrompt": "Debate the pros and cons of studying or working abroad vs. staying in one's home country.",
+        "writingPrompt": "Write a short essay (150-200 words) discussing how cities can facilitate integration for new residents."
+      }
+    ]
+  },
+  "B2": {
+    "title": "Phase 5: B2 Core",
+    "description": "Goal: University-ready Italian. Master advanced subjunctive, past conditional, hypothetical periods, and academic connectors.",
+    "units": [
+      {
+        "id": "b2_u1",
+        "title": "Advanced Subjunctive (Imperfetto & Trapassato)",
+        "grammar": "Conjugating and using Congiuntivo Imperfetto and Trapassato. Correct sequence of tenses (consecutio temporum) with verbs of emotion/opinion in the past.",
+        "vocabulary": "University administration, research vocabulary, lecture descriptions.",
+        "examples": [
+          { "italian": "Pensavo che tu fossi già iscritto all'università.", "english": "I thought that you had already enrolled in university." },
+          { "italian": "Sarebbe stato fantastico se avessimo superato quell'esame.", "english": "It would have been fantastic if we had passed that exam." }
+        ],
+        "speakingPrompt": "Talk about a university course or research topic you would have liked to study in the past.",
+        "writingPrompt": "Write an email to a university registrar explaining a past administrative problem, using correct past subjunctive forms."
+      },
+      {
+        "id": "b2_u2",
+        "title": "The Past Conditional (Condizionale Passato)",
+        "grammar": "Conjugating and using Condizionale Passato. Expressing actions that could have occurred in the past but didn't, or future actions relative to past moments.",
+        "vocabulary": "Business structures, project management, and reporting errors.",
+        "examples": [
+          { "italian": "Il direttore avrebbe voluto organizzare una conferenza stampa.", "english": "The director would have wanted to organize a press conference." },
+          { "italian": "Ci hai assicurato che avresti spedito i contratti.", "english": "You assured us that you would send the contracts." }
+        ],
+        "speakingPrompt": "Explain a professional project that failed or was delayed, describing what *should* have happened.",
+        "writingPrompt": "Write a memo analyzing a project delay, outlining what actions would have improved the outcome."
+      },
+      {
+        "id": "b2_u3",
+        "title": "Hypothetical Periods (Periodo Ipotetico)",
+        "grammar": "Mastering the three types of hypothetical sentences: reality (indicative + indicative), possibility (subjunctive imperfetto + conditional present), and unreality (subjunctive trapassato + conditional passato). Mixed conditionals.",
+        "vocabulary": "Speculation, environmental sustainability, climate solutions.",
+        "examples": [
+          { "italian": "Se avessimo ridotto le emissioni prima, oggi la situazione sarebbe migliore.", "english": "If we had reduced emissions earlier, today the situation would be better." },
+          { "italian": "Se potessi viaggiare indietro nel tempo, studierei a Bologna.", "english": "If I could travel back in time, I would study in Bologna." }
+        ],
+        "speakingPrompt": "What would you do to tackle climate change if you were a government leader? Use hypothetical sentences.",
+        "writingPrompt": "Write a speculative essay (200 words) on how city planning would change if private cars were banned."
+      },
+      {
+        "id": "b2_u4",
+        "title": "Logical Connectors & Argumentation",
+        "grammar": "Using advanced logical connectors: tuttavia (however), sebbene/nonostante (although), inoltre (furthermore), dunque/pertanto (therefore), di conseguenza (consequently), malgrado (despite), affinché (so that), qualora (in case).",
+        "vocabulary": "Marketing, data analysis, technology adoption.",
+        "examples": [
+          { "italian": "Sebbene l'azienda abbia registrato perdite, gli investimenti continueranno.", "english": "Although the company registered losses, investments will continue." },
+          { "italian": "Qualora si presentassero anomalie, il sistema si bloccherà.", "english": "Should anomalies present themselves, the system will lock." }
+        ],
+        "speakingPrompt": "Present arguments supporting or opposing data collection by technology firms, using at least 5 different connectors.",
+        "writingPrompt": "Write an analysis of a market trend, detailing actions and outcomes using connectors of concession and consequence."
+      },
+      {
+        "id": "b2_u5",
+        "title": "Complex Relative Clauses & Academic Speech",
+        "grammar": "Structuring complex relative clauses (e.g. 'il cui scopo', 'dopo il quale'). Nominalization (replacing verbs with noun phrases to sound academic).",
+        "vocabulary": "Lectures, academic examinations, researching methodologies.",
+        "examples": [
+          { "italian": "Il progetto, il cui scopo è promuovere l'ecologia, inizierà a maggio.", "english": "The project, whose purpose is to promote ecology, will start in May." },
+          { "italian": "La rimozione delle barriere architettoniche favorisce l'inclusione.", "english": "The removal of architectural barriers promotes inclusion." }
+        ],
+        "speakingPrompt": "Explain a scientific or sociological theory you are familiar with, using formal nominalizations.",
+        "writingPrompt": "Write an abstract for a hypothetical research paper, summarizing its thesis and methodologies (150 words)."
+      },
+      {
+        "id": "b2_u6",
+        "title": "Professional Communications",
+        "grammar": "Formatting letters and proposals. Using the polite third-person plural and singular structures ('Lei', 'Loro') in business context.",
+        "vocabulary": "Business negotiations, job interview techniques, contract agreements.",
+        "examples": [
+          { "italian": "La ringraziamo per aver accettato il nostro invito.", "english": "We thank you (polite singular) for accepting our invitation." },
+          { "italian": "Qualora Lei fosse interessato, restiamo a disposizione.", "english": "Should you (polite singular) be interested, we remain at your disposal." }
+        ],
+        "speakingPrompt": "Participate in a simulated job interview in Italian. Answer questions about your strengths and goals.",
+        "writingPrompt": "Write a formal letter applying for an internship or job opening at an Italian institution."
+      }
+    ]
+  },
+  "B2_mastery": {
+    "title": "Phase 6: B2 Mastery",
+    "description": "Goal: Sound natural, academic, and educated. Read Italian newspapers, draft academic essays, participate in debates, and handle interviews.",
+    "units": [
+      {
+        "id": "b2m_u1",
+        "title": "Reading the Italian Press",
+        "grammar": "Syntactical analysis of journalistic prose. Understanding double negatives, passive voice, and sub-clauses in news articles.",
+        "vocabulary": "Political jargon, economic indicators, terms from papers like Corriere della Sera, La Repubblica, Il Sole 24 Ore.",
+        "examples": [
+          { "italian": "L'articolo solleva dubbi sulla sostenibilità delle misure fiscali.", "english": "The article raises doubts about the sustainability of the fiscal measures." },
+          { "italian": "Ciononostante, il consiglio dei ministri ha approvato il decreto.", "english": "Nonetheless, the council of ministers approved the decree." }
+        ],
+        "speakingPrompt": "Summarize a recent news event reported in an Italian newspaper and share your evaluation.",
+        "writingPrompt": "Write a summary (150 words) of an editorial piece discussing immigration policies in Europe."
+      },
+      {
+        "id": "b2m_u2",
+        "title": "Listening to Academic and Public Discussions",
+        "grammar": "Recognizing spoken connectors, colloquial particles, speed variations, regional accents, and rhetorical structures in public lectures.",
+        "vocabulary": "Podcasts, interviews, public panel terms, and research vocabulary.",
+        "examples": [
+          { "italian": "A dire il vero, la questione è molto complessa.", "english": "Truth be told, the issue is very complex." },
+          { "italian": "Vorrei riallacciarmi a quanto detto dal relatore.", "english": "I would like to refer back to what the speaker said." }
+        ],
+        "speakingPrompt": "Refute or support an argument made during a panel discussion on renewable energy.",
+        "writingPrompt": "Write an opinion essay responding to a podcast discussion about the impact of remote working."
+      },
+      {
+        "id": "b2m_u3",
+        "title": "Formal Essay Writing (250-500 words)",
+        "grammar": "Structuring formal introductions, body paragraphs with counter-arguments, and strong conclusions. Syntactical cohesion.",
+        "vocabulary": "Transition words (in primo luogo, a tal proposito, in conclusione), academic descriptors.",
+        "examples": [
+          { "italian": "In conclusione, emerge chiaramente la necessità di riforme.", "english": "In conclusion, the necessity of reforms clearly emerges." },
+          { "italian": "Si ritiene comunemente che gli investimenti siano insufficienti.", "english": "It is commonly believed that investments are insufficient." }
+        ],
+        "speakingPrompt": "Present a 3-minute oral defense of a thesis regarding the conservation of historic monuments.",
+        "writingPrompt": "Compose a formal essay (300 words) arguing for or against the integration of AI tools in university examinations."
+      },
+      {
+        "id": "b2m_u4",
+        "title": "Debating & Presenting Opinions",
+        "grammar": "Phrasing agreements, disagreements, interruptions, and rebuttals politely and effectively. Using idioms to color arguments.",
+        "vocabulary": "Idiomatic expressions (arrampicarsi sugli specchi, gettare la spugna, tagliare la testa al toro).",
+        "examples": [
+          { "italian": "Mi dispiace interrompere, ma questo argomento non regge.", "english": "I am sorry to interrupt, but this argument does not hold up." },
+          { "italian": "Non arrampichiamoci sugli specchi: i dati parlano chiaro.", "english": "Let's not make desperate excuses: the data is clear." }
+        ],
+        "speakingPrompt": "Engage in an Italian debate about the impact of tourism on historic Italian cities like Venice and Florence.",
+        "writingPrompt": "Write an opinion piece discussing how mass tourism compromises local culture, using at least three idioms."
+      },
+      {
+        "id": "b2m_u5",
+        "title": "Professional Presentations",
+        "grammar": "Formatting oral presentations, utilizing slides, and managing audience questions. Handling advanced polite conditionals.",
+        "vocabulary": "Business presentations, slides description terms, handling questions.",
+        "examples": [
+          { "italian": "Come potete vedere da questo grafico, le vendite sono stabili.", "english": "As you can see from this graph, sales are stable." },
+          { "italian": "Se ci sono domande, sarò felice di rispondere.", "english": "If there are questions, I will be happy to answer." }
+        ],
+        "speakingPrompt": "Deliver a 5-minute presentation in Italian about a product or project you developed recently.",
+        "writingPrompt": "Prepare a presentation slide script outlining the milestones of a company sustainability initiative."
+      },
+      {
+        "id": "b2m_u6",
+        "title": "Literary & Intellectual Discourse",
+        "grammar": "Analyzing excerpts of Italian literature (e.g. Calvino, Eco). Understanding complex prose, metaphors, and narrative tenses.",
+        "vocabulary": "Literary devices, metaphors, expressions of stylistic nuances.",
+        "examples": [
+          { "italian": "L'opera mette in evidenza la solitudine dell'uomo moderno.", "english": "The work highlights the solitude of modern man." },
+          { "italian": "Questa metafora esprime la dualità dell'anima.", "english": "This metaphor expresses the duality of the soul." }
+        ],
+        "speakingPrompt": "Discuss your interpretation of a famous Italian quote or short story with your tutor.",
+        "writingPrompt": "Write a critical analysis (200 words) of a short excerpt of modern Italian literature."
+      }
+    ]
+  }
+}

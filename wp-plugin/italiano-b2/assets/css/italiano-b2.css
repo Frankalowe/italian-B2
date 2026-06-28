@@ -1,0 +1,263 @@
+:root {
+  --bg-primary: #f4ede2;
+  --text-primary: #000000;
+  --border-primary: #000000;
+  
+  --color-accent-green: #a3e635;
+  --color-accent-blue: #60a5fa;
+  --color-accent-red: #f87171;
+  --color-accent-yellow: #fde047;
+  --color-accent-purple: #c084fc;
+  --color-accent-orange: #fb923c;
+  --color-accent-pink: #ec4899;
+  
+  --card-shadow: 6px 6px 0px #000000;
+  --button-shadow: 4px 4px 0px #000000;
+}
+
+.ib2-app {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  padding: 1rem;
+}
+
+.ib2-app * {
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Page Headers */
+.ib2-app .page-header {
+  margin-bottom: 2.5rem;
+}
+
+.ib2-app .page-title {
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.ib2-app .page-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* Neobrutalist Cards */
+.ib2-app .nb-card {
+  background-color: #ffffff;
+  border: 4px solid var(--border-primary);
+  box-shadow: var(--card-shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.ib2-app .nb-card.accent-green { background-color: var(--color-accent-green); }
+.ib2-app .nb-card.accent-blue { background-color: var(--color-accent-blue); }
+.ib2-app .nb-card.accent-red { background-color: var(--color-accent-red); }
+.ib2-app .nb-card.accent-yellow { background-color: var(--color-accent-yellow); }
+.ib2-app .nb-card.accent-purple { background-color: var(--color-accent-purple); }
+.ib2-app .nb-card.accent-orange { background-color: var(--color-accent-orange); }
+
+.ib2-app .nb-card-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 3px solid #000;
+  padding-bottom: 0.5rem;
+}
+
+/* Neobrutalist Buttons */
+.ib2-app .nb-btn {
+  background-color: var(--color-accent-blue);
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.8rem 1.5rem;
+  border: 3px solid var(--border-primary);
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ib2-app .nb-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.ib2-app .nb-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.ib2-app .nb-btn.btn-green { background-color: var(--color-accent-green); }
+.ib2-app .nb-btn.btn-red { background-color: var(--color-accent-red); }
+.ib2-app .nb-btn.btn-yellow { background-color: var(--color-accent-yellow); }
+.ib2-app .nb-btn.btn-orange { background-color: var(--color-accent-orange); }
+
+/* Grid Layouts */
+.ib2-app .nb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Forms and Inputs */
+.ib2-app .nb-input, .ib2-app .nb-textarea, .ib2-app .nb-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 3px solid var(--border-primary);
+  background-color: #fff;
+  outline: none;
+  box-shadow: 3px 3px 0px #000;
+  transition: all 0.1s ease;
+}
+
+.ib2-app .nb-input:focus, .ib2-app .nb-textarea:focus, .ib2-app .nb-select:focus {
+  box-shadow: 5px 5px 0px #000;
+  transform: translate(-1px, -1px);
+}
+
+.ib2-app .nb-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Syllabus Progress Indicator */
+.ib2-app .progress-bar-container {
+  width: 100%;
+  height: 32px;
+  background-color: #fff;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0px #000;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.ib2-app .progress-bar-fill {
+  height: 100%;
+  background-color: var(--color-accent-green);
+  transition: width 0.3s ease;
+}
+
+.ib2-app .progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: #000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Badge System */
+.ib2-app .nb-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  background-color: #fff;
+  margin-right: 0.5rem;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.ib2-app .nb-badge.level-a1 { background-color: var(--color-accent-blue); }
+.ib2-app .nb-badge.level-a2 { background-color: var(--color-accent-green); }
+.ib2-app .nb-badge.level-b1 { background-color: var(--color-accent-purple); }
+.ib2-app .nb-badge.level-b1_plus { background-color: var(--color-accent-pink); }
+.ib2-app .nb-badge.level-b2 { background-color: var(--color-accent-orange); }
+.ib2-app .nb-badge.level-b2_mastery { background-color: var(--color-accent-red); }
+
+/* Markdown content styling inside study guide */
+.ib2-app .markdown-content h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 4px solid #000;
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.ib2-app .markdown-content h2 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 3px solid #000;
+  padding-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.ib2-app .markdown-content p {
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.ib2-app .markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  box-shadow: 4px 4px 0px #000;
+  border: 3px solid #000;
+  background-color: #fff;
+}
+
+.ib2-app .markdown-content th, .ib2-app .markdown-content td {
+  border: 2px solid #000;
+  padding: 0.8rem 1rem;
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+.ib2-app .markdown-content th {
+  background-color: var(--color-accent-yellow);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Neobrutalist Spinning Box Loader */
+.ib2-app .nb-loader {
+  width: 42px;
+  height: 42px;
+  background-color: var(--color-accent-yellow);
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0px #000;
+  animation: nb-spin 1.2s infinite ease-in-out;
+  margin: 0 auto 0.5rem auto;
+}
+
+@keyframes nb-spin {
+  0% { transform: rotate(0deg); }
+  50% {
+    transform: rotate(180deg);
+    background-color: var(--color-accent-pink);
+    box-shadow: -3px -3px 0px #000;
+  }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .ib2-app .nb-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
