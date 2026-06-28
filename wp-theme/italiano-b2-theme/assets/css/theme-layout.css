@@ -1,0 +1,110 @@
+:root {
+  --bg-primary: #f4ede2;
+  --text-primary: #000;
+  --border-primary: #000;
+  --color-accent-yellow: #fde047;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sidebar theme frame */
+.theme-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.theme-sidebar {
+  width: 280px;
+  background-color: var(--color-accent-yellow);
+  border-right: 4px solid var(--border-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.theme-main-content {
+  flex: 1;
+  padding: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.theme-logo-container {
+  margin-bottom: 3rem;
+  border-bottom: 4px solid var(--border-primary);
+  padding-bottom: 1rem;
+}
+
+.theme-logo-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.theme-logo-sub {
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: #000;
+  color: #fff;
+  display: inline-block;
+  padding: 2px 6px;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
+.theme-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.theme-nav-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.8rem 1.2rem;
+  border: 3px solid var(--border-primary);
+  box-shadow: 4px 4px 0px #000;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.theme-nav-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+@media (max-width: 900px) {
+  .theme-container {
+    flex-direction: column;
+  }
+  .theme-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 4px solid var(--border-primary);
+  }
+  .theme-nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
