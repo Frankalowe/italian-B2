@@ -386,8 +386,6 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
               </div>
             </div>
           )}
-            </div>
-          )}
 
           {/* Integrated Practice Task Buttons */}
           <div style={{ borderTop: '3px solid #000', paddingTop: '1.5rem', marginTop: '2rem' }}>
