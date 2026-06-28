@@ -341,9 +341,9 @@ export default function LessonTree({ syllabus, progress, toggleUnitProgress, set
           </div>
 
           {!lessonContent && !loadingLesson && (
-            <button className="nb-btn btn-blue" onClick={fetchLessonContent}>
-              🚀 Compile {activeTab.toUpperCase()} Chapter
-            </button>
+            <p style={{ fontWeight: 700, color: '#777', padding: '1rem', border: '3px dashed #000', textAlign: 'center' }}>
+              📚 Lesson notes for this unit tab are missing from precompilation database cache.
+            </p>
           )}
 
           {loadingLesson && (
